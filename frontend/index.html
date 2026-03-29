@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NimbusVault — Personal Cloud Storage</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Background decorative elements -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">NimbusVault</span>
+    </div>
+    <div class="header-meta">
+      <span class="status-dot"></span>
+      <span class="status-text">System Online</span>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <p class="hero-tag">Personal Cloud Infrastructure</p>
+      <h1 class="hero-title">Your Files.<br>Your VMs.<br>Your Rules.</h1>
+      <p class="hero-sub">Upload, classify, and auto-backup files to your Linux VMs using intelligent SCP-based replication.</p>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar" id="statsBar">
+      <div class="stat">
+        <span class="stat-num" id="totalFiles">0</span>
+        <span class="stat-label">Total Files</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" id="totalBackedUp">0</span>
+        <span class="stat-label">Backed Up</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" id="totalSize">0 B</span>
+        <span class="stat-label">Total Size</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" id="totalAccess">0</span>
+        <span class="stat-label">Total Accesses</span>
+      </div>
+    </div>
+
+    <!-- Upload Zone -->
+    <section class="upload-section">
+      <div class="section-header">
+        <h2>Upload Files</h2>
+        <span class="section-tag">drag & drop or click</span>
+      </div>
+
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-icon">↑</div>
+        <p class="drop-title">Drop files here</p>
+        <p class="drop-sub">Supports any file type — auto-classified on upload</p>
+        <input type="file" id="fileInput" multiple hidden />
+        <button class="btn-select" onclick="document.getElementById('fileInput').click()">
+          Choose Files
+        </button>
+      </div>
+
+      <!-- Upload Progress -->
+      <div class="upload-progress-list" id="uploadProgressList"></div>
+    </section>
+
+    <!-- Controls Row -->
+    <div class="controls-row">
+      <div class="filter-group">
+        <span class="filter-label">Filter:</span>
+        <button class="filter-btn active" data-type="all" onclick="filterFiles('all', this)">All</button>
+        <button class="filter-btn" data-type="image" onclick="filterFiles('image', this)">🖼️ Images</button>
+        <button class="filter-btn" data-type="code" onclick="filterFiles('code', this)">💻 Code</button>
+        <button class="filter-btn" data-type="document" onclick="filterFiles('document', this)">📄 Docs</button>
+        <button class="filter-btn" data-type="video" onclick="filterFiles('video', this)">🎬 Video</button>
+        <button class="filter-btn" data-type="other" onclick="filterFiles('other', this)">📎 Other</button>
+      </div>
+      <div class="action-group">
+        <button class="btn-action" onclick="backupAll()">
+          <span>⚡</span> Smart Backup All
+        </button>
+        <button class="btn-action btn-action-secondary" onclick="refreshFiles()">
+          <span>↻</span> Refresh
+        </button>
+      </div>
+    </div>
+
+    <!-- Files Grid -->
+    <section class="files-section">
+      <div class="section-header">
+        <h2>Your Files</h2>
+        <span class="section-tag" id="fileCountTag">Loading...</span>
+      </div>
+
+      <div class="files-grid" id="filesGrid">
+        <!-- File cards injected here by JavaScript -->
+        <div class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Loading files...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Backup Status Panel -->
+    <section class="backup-section">
+      <div class="section-header">
+        <h2>Backup Intelligence</h2>
+        <span class="section-tag">SCP-based replication</span>
+      </div>
+
+      <div class="backup-grid" id="backupGrid">
+        <div class="backup-info-card">
+          <div class="backup-icon">🔵</div>
+          <div>
+            <div class="backup-card-title">High Priority</div>
+            <div class="backup-card-sub">Code + Documents. Backed up every hour.</div>
+          </div>
+        </div>
+        <div class="backup-info-card">
+          <div class="backup-icon">🟡</div>
+          <div>
+            <div class="backup-card-title">Medium Priority</div>
+            <div class="backup-card-sub">Images with 2+ accesses. Backed up every 6h.</div>
+          </div>
+        </div>
+        <div class="backup-info-card">
+          <div class="backup-icon">🟢</div>
+          <div>
+            <div class="backup-card-title">Low Priority</div>
+            <div class="backup-card-sub">Archives, rarely accessed. Backed up daily.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- File Detail Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

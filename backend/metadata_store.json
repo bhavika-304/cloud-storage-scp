@@ -1,0 +1,24 @@
+{
+  "main.py": {
+    "file_id": "main.py",
+    "filename": "main.py",
+    "size_bytes": 4282,
+    "upload_time": "2026-03-29T21:40:23.221199",
+    "storage_path": "vm://main.py",
+    "file_type": "code",
+    "access_count": 0,
+    "is_backed_up": true,
+    "last_backup_time": "2026-03-29T22:03:15.426148"
+  },
+  "Screenshot_from_2026-03-29_21-09-52.png": {
+    "file_id": "Screenshot_from_2026-03-29_21-09-52.png",
+    "filename": "Screenshot from 2026-03-29 21-09-52.png",
+    "size_bytes": 299889,
+    "upload_time": "2026-03-29T22:02:39.262723",
+    "storage_path": "vm://Screenshot_from_2026-03-29_21-09-52.png",
+    "file_type": "image",
+    "access_count": 0,
+    "is_backed_up": false,
+    "last_backup_time": null
+  }
+}
